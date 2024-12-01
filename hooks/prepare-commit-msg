@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get the current branch name
+branch_name=$(git symbolic-ref --short HEAD)
+
+# Extract the issue number (assuming a pattern like "123-sql-chain")
+issue_number=$(echo "$branch_name" | grep -o "^[0-9]*")
+
+# Path to the commit message file
+commit_msg_file=$1
+
+# Check if an issue number was found and modify the commit message
+if [ -n "$issue_number" ]; then
+    # Prepend the issue number to the commit message
+    sed -i.bak "1s/^/#$issue_number /" "$commit_msg_file"
+fi
